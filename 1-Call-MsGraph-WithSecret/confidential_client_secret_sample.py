@@ -32,12 +32,13 @@ import msal
 # Optional logging
 # logging.basicConfig(level=logging.DEBUG)
 
-config = json.load(open(sys.argv[1]))
+config = json.load(open("parameters.json"))
+secret = json.load(open("secret.json"))
 
 # Create a preferably long-lived app instance which maintains a token cache.
 app = msal.ConfidentialClientApplication(
     config["client_id"], authority=config["authority"],
-    client_credential=config["secret"],
+    client_credential=secret["key"],
     # token_cache=...  # Default cache is in memory only.
                        # You can learn how to use SerializableTokenCache from
                        # https://msal-python.rtfd.io/en/latest/#msal.SerializableTokenCache
