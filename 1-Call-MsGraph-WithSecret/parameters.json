@@ -1,0 +1,10 @@
+{
+  "authority": "https://login.microsoftonline.com/4a67ea04-b95f-45d5-bde9-d4d9e9ab4acd",
+  "client_id": "e412daec-7ba7-4e45-81e2-4fdcf4445fe8",
+  "scope": [ "https://graph.microsoft.com/.default" ],
+  "secret": "",
+  "endpoint": "https://graph.microsoft.com/v1.0/drives/b!f4tdWi0BT0SUt4D1Ygxo9dlKrnPYiDRLhhMjeHwvXWrzYqALALAcS4dlj68cpc_R/items/01CPDKJQGSYR3AELAB2RC3A36WSX2KFP37/workbook/worksheets/0/usedRange",
+  "endpoint1": "https://graph.microsoft.com/v1.0/drives/b!f4tdWi0BT0SUt4D1Ygxo9dlKrnPYiDRLhhMjeHwvXWrzYqALALAcS4dlj68cpc_R/items/01CPDKJQGSYR3AELAB2RC3A36WSX2KFP37",
+  "diskId": "b!f4tdWi0BT0SUt4D1Ygxo9dlKrnPYiDRLhhMjeHwvXWrzYqALALAcS4dlj68cpc_R",
+  "groupId": "53096a09-00de-45de-aa3d-f7babeab3d64"
+}
