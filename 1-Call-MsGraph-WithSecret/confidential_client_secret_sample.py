@@ -65,7 +65,7 @@ if "access_token" in result:
         headers={'Authorization': 'Bearer ' + result['access_token']}, ).json()
     print("Graph API call result: ")
     # print(json.dumps(graph_data, indent=2))
-    print("columnCount", graph_data['address'], graph_data['columnCount'])
+    print("columnCount", graph_data["address"], graph_data['columnCount'])
     with open('items.json', 'w') as fp:
         json.dump(graph_data['text'], fp)
 else:
