@@ -1,5 +1,5 @@
 import json
-import openpyxl
+from openpyxl import Workbook
 parsed_pages = []
 
 def valid_range(row, start, stop):
@@ -220,7 +220,7 @@ for crash_page in crash_pages:
         deploy_pages.append(mix_page)
         mix_page = None
 
-# / Brand / Type
+# / Type / Brand
 for brand_page in brand_pages:
     brand_title = " {0}".format(brand_page["title"])
     brand_page_slug = brand_page['slug']
@@ -230,13 +230,35 @@ for brand_page in brand_pages:
             
         mix_page = main_page.copy()
         mix_page.update(type_page)
-        mix_page["slug"] = "{0}/{1}/{2}".format(main_page['slug'], brand_page_slug, type_page_slug)
+        mix_page["slug"] = "{0}/{1}/{2}".format(main_page['slug'], type_page_slug, brand_page_slug )
         mix_page["title"] = main_page["title"].format(CRASH="Ремонт", TYPE=type_title, BRAND=brand_title, DISTRICT="")
         mix_page["description"] = main_page["title"].format(CRASH="Ремонт", TYPE=type_title, BRAND=brand_title, DISTRICT="")
         mix_page["offer"]["top"] = main_page["offer"]["top"].format(CRASH="Ремонт".upper(), TYPE=type_title.upper(), BRAND=brand_title.upper(), DISTRICT="".upper())
 
         deploy_pages.append(mix_page)
         mix_page = None
+
+# / Type / Brand / crash
+for type_page in type_pages:
+    type_title = " {0}".format(type_page["title"])
+    type_page_slug = type_page['slug']
+    for brand_page in brand_pages:
+        brand_title = " {0}".format(brand_page["title"])
+        brand_page_slug = brand_page['slug']
+
+        for crash_page in crash_pages:
+            crash_title = " {0}".format(crash_page["title"])
+            crash_page_slug = crash_page['slug']
+            
+            mix_page = main_page.copy()
+            mix_page.update(type_page)
+            mix_page["slug"] = "{0}/{1}/{2}/{3}".format(main_page['slug'], type_page_slug, brand_page_slug, crash_page_slug )
+            mix_page["title"] = main_page["title"].format(CRASH=crash_title, TYPE=type_title, BRAND=brand_title, DISTRICT="")
+            mix_page["description"] = main_page["title"].format(CRASH=crash_title, TYPE=type_title, BRAND=brand_title, DISTRICT="")
+            mix_page["offer"]["top"] = main_page["offer"]["top"].format(CRASH=crash_title.upper(), TYPE=type_title.upper(), BRAND=brand_title.upper(), DISTRICT="".upper())
+
+            deploy_pages.append(mix_page)
+            mix_page = None
 
 # / Brand / District
 for brand_page in brand_pages:
@@ -298,3 +320,9 @@ for brand_page in brand_pages:
 
 print(deploy_pages.__len__())
 
+wb = Workbook()
+ws1 = wb.active
+ws1.title = "0"
+for row in deploy_pages:
+    ws1.append([row["slug"]])
+wb.save(filename = "LinksGenerated.xlsx")
