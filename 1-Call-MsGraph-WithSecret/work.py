@@ -120,8 +120,10 @@ deploy_pages = []
 
 
 main_page = list(filter(lambda x: x['type'] == 'основа', parsed_pages))[0]
+import copy
 
-deploy_main_page = main_page.copy()
+deploy_main_page = copy.deepcopy(main_page)
+deploy_main_page["slug"] = [deploy_main_page['slug']]
 deploy_main_page["title"] = deploy_main_page["title"].format(
     CRASH="Ремонт", TYPE="", BRAND="", DISTRICT="")
 deploy_main_page["description"] = deploy_main_page["title"].format(
@@ -138,17 +140,16 @@ type_pages = list(filter(lambda x: x['type'] == 'вид', parsed_pages))
 
 # / District
 for district_page in district_pages:
-    deploy_district_page = main_page.copy()
+    deploy_district_page = copy.deepcopy(main_page)
     deploy_district_page.update(district_page)
     district_title = " {0}".format(district_page["title"])
-    deploy_district_page["slug"] = "{0}/{1}".format(
-        main_page['slug'], district_page['slug'])
+    deploy_district_page["slug"] = [main_page['slug'], district_page['slug']]
     deploy_district_page["title"] = main_page["title"].format(
         CRASH="Ремонт", TYPE="", BRAND="", DISTRICT=district_title)
     deploy_district_page["description"] = main_page["title"].format(
         CRASH="Ремонт", TYPE="", BRAND="", DISTRICT=district_title)
     deploy_district_page["offer"]["top"] = main_page["offer"]["top"].format(
-        CRASH="РЕМОНТ", TYPE="", BRAND="", DISTRICT=district_title)
+        CRASH="РЕМОНТ", TYPE="", BRAND="", DISTRICT=district_title.upper())
 
     deploy_pages.append(deploy_district_page)
     deploy_district_page = None
@@ -156,34 +157,32 @@ for district_page in district_pages:
 
 # / Type
 for type_page in type_pages:
-    deploy_type_page = main_page.copy()
+    deploy_type_page = copy.deepcopy(main_page)
     deploy_type_page.update(type_page)
     type_title = " {0}".format(type_page["title"])
-    deploy_type_page["slug"] = "{0}/{1}".format(
-        main_page['slug'], type_page['slug'])
+    deploy_type_page["slug"] = [main_page['slug'], type_page['slug']]
     deploy_type_page["title"] = main_page["title"].format(
         CRASH="Ремонт", TYPE=type_title, BRAND="", DISTRICT="")
     deploy_type_page["description"] = main_page["title"].format(
         CRASH="Ремонт", TYPE=type_title, BRAND="", DISTRICT="")
     deploy_type_page["offer"]["top"] = main_page["offer"]["top"].format(
-        CRASH="РЕМОНТ", TYPE=type_title.upper(), BRAND="", DISTRICT="")
+        CRASH="РЕМОНТ".upper(), TYPE=type_title.upper(), BRAND="", DISTRICT="")
 
     deploy_pages.append(deploy_type_page)
     deploy_type_page = None
 
 # / crash
 for crash_page in crash_pages:
-    deploy_crash_page = main_page.copy()
+    deploy_crash_page = copy.deepcopy(main_page)
     deploy_crash_page.update(crash_page)
     crash_title = " {0}".format(crash_page["title"])
-    deploy_crash_page["slug"] = "{0}/{1}".format(
-        main_page['slug'], crash_page['slug'])
+    deploy_crash_page["slug"] = [main_page['slug'], crash_page['slug']]
     deploy_crash_page["title"] = main_page["title"].format(
         CRASH=crash_title, TYPE="", BRAND="", DISTRICT="")
     deploy_crash_page["description"] = main_page["title"].format(
         CRASH=crash_title, TYPE="", BRAND="", DISTRICT="")
     deploy_crash_page["offer"]["top"] = main_page["offer"]["top"].format(
-        CRASH=crash_title, TYPE="", BRAND="", DISTRICT="")
+        CRASH=crash_title.upper(), TYPE="", BRAND="", DISTRICT="")
 
     deploy_pages.append(deploy_crash_page)
     deploy_crash_page = None
@@ -191,17 +190,16 @@ for crash_page in crash_pages:
 
 # / brand
 for brand_page in brand_pages:
-    deploy_brand_page = main_page.copy()
+    deploy_brand_page = copy.deepcopy(main_page)
     deploy_brand_page.update(brand_page)
     brand_title = " {0}".format(brand_page["title"])
-    deploy_brand_page["slug"] = "{0}/{1}".format(
-        main_page['slug'], brand_page['slug'])
+    deploy_brand_page["slug"] = [main_page['slug'], brand_page['slug']]
     deploy_brand_page["title"] = main_page["title"].format(
         CRASH="Ремонт", TYPE="", BRAND=brand_title, DISTRICT="")
     deploy_brand_page["description"] = main_page["title"].format(
         CRASH="Ремонт", TYPE="", BRAND=brand_title, DISTRICT="")
     deploy_brand_page["offer"]["top"] = main_page["offer"]["top"].format(
-        CRASH="РЕМОНТ", TYPE="", BRAND=brand_title, DISTRICT="")
+        CRASH="РЕМОНТ", TYPE="", BRAND=brand_title.upper(), DISTRICT="")
 
     deploy_pages.append(deploy_brand_page)
     deploy_brand_page = None
@@ -214,17 +212,17 @@ for district_page in district_pages:
     district_title = " {0}".format(district_page["title"])
     district_page_slug = district_page['slug']
     for type_page in type_pages:
-        mix_page = main_page.copy()
+        mix_page = copy.deepcopy(main_page)
         mix_page.update(type_page)
         type_title = " {0}".format(type_page["title"])
-        mix_page["slug"] = "{0}/{1}/{2}".format(
-            main_page['slug'], type_page['slug'], district_page_slug)
+        mix_page["slug"] = [main_page['slug'], type_page['slug'], district_page_slug]
         mix_page["title"] = main_page["title"].format(
             CRASH="Ремонт", TYPE=type_title, BRAND="", DISTRICT=district_title)
         mix_page["description"] = main_page["title"].format(
             CRASH="Ремонт", TYPE=type_title, BRAND="", DISTRICT=district_title)
         mix_page["offer"]["top"] = main_page["offer"]["top"].format(
             CRASH="РЕМОНТ", TYPE=type_title.upper(), BRAND="", DISTRICT=district_title.upper())
+        
 
         deploy_pages.append(mix_page)
         mix_page = None
@@ -234,11 +232,10 @@ for crash_page in crash_pages:
     crash_title = " {0}".format(crash_page["title"])
     crash_page_slug = crash_page['slug']
     for type_page in type_pages:
-        mix_page = main_page.copy()
+        mix_page = copy.deepcopy(main_page)
         mix_page.update(type_page)
         type_title = " {0}".format(type_page["title"])
-        mix_page["slug"] = "{0}/{1}/{2}".format(
-            main_page['slug'], type_page['slug'], crash_page_slug)
+        mix_page["slug"] = [main_page['slug'], type_page['slug'], crash_page_slug]
         mix_page["title"] = main_page["title"].format(
             CRASH=crash_title, TYPE=type_title, BRAND="", DISTRICT="")
         mix_page["description"] = main_page["title"].format(
@@ -257,10 +254,9 @@ for brand_page in brand_pages:
         type_title = " {0}".format(type_page["title"])
         type_page_slug = type_page['slug']
 
-        mix_page = main_page.copy()
+        mix_page = copy.deepcopy(main_page)
         mix_page.update(type_page)
-        mix_page["slug"] = "{0}/{1}/{2}".format(
-            main_page['slug'], type_page_slug, brand_page_slug)
+        mix_page["slug"] = [main_page['slug'], type_page_slug, brand_page_slug]
         mix_page["title"] = main_page["title"].format(
             CRASH="Ремонт", TYPE=type_title, BRAND=brand_title, DISTRICT="")
         mix_page["description"] = main_page["title"].format(
@@ -283,10 +279,9 @@ for type_page in type_pages:
             crash_title = " {0}".format(crash_page["title"])
             crash_page_slug = crash_page['slug']
 
-            mix_page = main_page.copy()
+            mix_page = copy.deepcopy(main_page)
             mix_page.update(type_page)
-            mix_page["slug"] = "{0}/{1}/{2}/{3}".format(
-                main_page['slug'], type_page_slug, brand_page_slug, crash_page_slug)
+            mix_page["slug"] = [main_page['slug'], type_page_slug, brand_page_slug, crash_page_slug]
             mix_page["title"] = main_page["title"].format(
                 CRASH=crash_title, TYPE=type_title, BRAND=brand_title, DISTRICT="")
             mix_page["description"] = main_page["title"].format(
@@ -305,10 +300,9 @@ for brand_page in brand_pages:
         district_title = " {0}".format(district_page["title"])
         district_page_slug = district_page['slug']
 
-        mix_page = main_page.copy()
+        mix_page = copy.deepcopy(main_page)
         mix_page.update(district_page)
-        mix_page["slug"] = "{0}/{1}/{2}".format(
-            main_page['slug'], brand_page_slug, district_page_slug)
+        mix_page["slug"] = [main_page['slug'], brand_page_slug, district_page_slug]
         mix_page["title"] = main_page["title"].format(
             CRASH="Ремонт", TYPE="", BRAND=brand_title, DISTRICT=district_title)
         mix_page["description"] = main_page["title"].format(
@@ -328,16 +322,15 @@ for brand_page in brand_pages:
         crash_title = " {0}".format(crash_page["title"])
         crash_page_slug = crash_page['slug']
 
-        mix_page = main_page.copy()
+        mix_page = copy.deepcopy(main_page)
         mix_page.update(crash_page)
-        mix_page["slug"] = "{0}/{1}/{2}".format(
-            main_page['slug'], brand_page_slug, crash_page_slug)
+        mix_page["slug"] = [main_page['slug'], brand_page_slug, crash_page_slug]
         mix_page["title"] = main_page["title"].format(
             CRASH=crash_title, TYPE="", BRAND=brand_title, DISTRICT="")
         mix_page["description"] = main_page["title"].format(
             CRASH=crash_title, TYPE="", BRAND=brand_title, DISTRICT="")
         mix_page["offer"]["top"] = main_page["offer"]["top"].format(
-            CRASH=crash_title.upper(), TYPE="", BRAND=brand_title, DISTRICT="")
+            CRASH=crash_title.upper(), TYPE="", BRAND=brand_title.upper(), DISTRICT="")
 
         deploy_pages.append(mix_page)
         mix_page = None
@@ -353,10 +346,9 @@ for brand_page in brand_pages:
             crash_title = " {0}".format(crash_page["title"])
             crash_page_slug = crash_page['slug']
 
-            mix_page = main_page.copy()
+            mix_page = copy.deepcopy(main_page)
             mix_page.update(crash_page)
-            mix_page["slug"] = "{0}/{1}/{2}/{3}".format(
-                main_page['slug'], brand_page_slug, district_page_slug, crash_page_slug)
+            mix_page["slug"] = [main_page['slug'], brand_page_slug, district_page_slug, crash_page_slug]
             mix_page["title"] = main_page["title"].format(
                 CRASH=crash_title, TYPE="", BRAND=brand_title, DISTRICT=district_title)
             mix_page["description"] = main_page["title"].format(
@@ -369,8 +361,11 @@ for brand_page in brand_pages:
 
 print(deploy_pages.__len__())
 
-with open("pages.json", 'w') as fp:
-    json.dump(deploy_pages, fp)
+
+with open("remonts.json", 'w') as fp:
+    data = deploy_pages[:100]
+    print(data.__len__())
+    json.dump(data, fp)
 
 # wb = Workbook()
 # ws1 = wb.active
