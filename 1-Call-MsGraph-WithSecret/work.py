@@ -1,5 +1,6 @@
 import json
 from openpyxl import Workbook
+import markdown2
 parsed_pages = []
 
 
@@ -194,13 +195,15 @@ for brand_page in brand_pages:
     deploy_brand_page.update(brand_page)
     brand_title = " {0}".format(brand_page["title"])
     deploy_brand_page["slug"] = [main_page['slug'], brand_page['slug']]
+
+    deploy_brand_page['brand_block'] = deploy_brand_page['description'] and markdown2.markdown(deploy_brand_page['description']) or None
     deploy_brand_page["title"] = main_page["title"].format(
         CRASH="Ремонт", TYPE="", BRAND=brand_title, DISTRICT="")
     deploy_brand_page["description"] = main_page["title"].format(
         CRASH="Ремонт", TYPE="", BRAND=brand_title, DISTRICT="")
     deploy_brand_page["offer"]["top"] = main_page["offer"]["top"].format(
         CRASH="РЕМОНТ", TYPE="", BRAND=brand_title.upper(), DISTRICT="")
-
+    
     deploy_pages.append(deploy_brand_page)
     deploy_brand_page = None
 
