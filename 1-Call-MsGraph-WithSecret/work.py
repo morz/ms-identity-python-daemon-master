@@ -144,6 +144,9 @@ for district_page in district_pages:
     deploy_district_page = copy.deepcopy(main_page)
     deploy_district_page.update(district_page)
     district_title = " {0}".format(district_page["title"])
+    district_page_description = district_page['description'] and markdown2.markdown(district_page['description']) or None
+    if district_page_description:
+        deploy_district_page['district_block'] = district_page_description
     deploy_district_page["slug"] = [main_page['slug'], district_page['slug']]
     deploy_district_page["title"] = main_page["title"].format(
         CRASH="Ремонт", TYPE="", BRAND="", DISTRICT=district_title)
@@ -161,6 +164,9 @@ for type_page in type_pages:
     deploy_type_page = copy.deepcopy(main_page)
     deploy_type_page.update(type_page)
     type_title = " {0}".format(type_page["title"])
+    type_page_description = type_page['description'] and markdown2.markdown(type_page['description']) or None
+    if type_page_description:
+        deploy_type_page['type_block'] = type_page_description
     deploy_type_page["slug"] = [main_page['slug'], type_page['slug']]
     deploy_type_page["title"] = main_page["title"].format(
         CRASH="Ремонт", TYPE=type_title, BRAND="", DISTRICT="")
@@ -177,6 +183,9 @@ for crash_page in crash_pages:
     deploy_crash_page = copy.deepcopy(main_page)
     deploy_crash_page.update(crash_page)
     crash_title = " {0}".format(crash_page["title"])
+    crash_page_description = crash_page['description'] and markdown2.markdown(crash_page['description']) or None
+    if crash_page_description:
+        deploy_crash_page['crash_block'] = crash_page_description
     deploy_crash_page["slug"] = [main_page['slug'], crash_page['slug']]
     deploy_crash_page["title"] = main_page["title"].format(
         CRASH=crash_title, TYPE="", BRAND="", DISTRICT="")
@@ -214,10 +223,16 @@ for brand_page in brand_pages:
 for district_page in district_pages:
     district_title = " {0}".format(district_page["title"])
     district_page_slug = district_page['slug']
+    district_page_description = district_page['description'] and markdown2.markdown(district_page['description']) or None
     for type_page in type_pages:
         mix_page = copy.deepcopy(main_page)
         mix_page.update(type_page)
         type_title = " {0}".format(type_page["title"])
+        type_page_description = type_page['description'] and markdown2.markdown(type_page['description']) or None
+        if district_page_description:
+            mix_page['district_block'] = district_page_description
+        if type_page_description:
+            mix_page['type_block'] = type_page_description
         mix_page["slug"] = [main_page['slug'], type_page['slug'], district_page_slug]
         mix_page["title"] = main_page["title"].format(
             CRASH="Ремонт", TYPE=type_title, BRAND="", DISTRICT=district_title)
