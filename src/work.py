@@ -1,6 +1,7 @@
 import json
 from openpyxl import Workbook
 import markdown2
+import copy
 parsed_pages = []
 
 
@@ -121,7 +122,6 @@ deploy_pages = []
 
 
 main_page = list(filter(lambda x: x['type'] == 'основа', parsed_pages))[0]
-import copy
 
 deploy_main_page = copy.deepcopy(main_page)
 deploy_main_page["slug"] = [deploy_main_page['slug']]
@@ -133,6 +133,8 @@ deploy_main_page["offer"]["top"] = deploy_main_page["offer"]["top"].format(
     CRASH="РЕМОНТ", TYPE="", BRAND="", DISTRICT="")
 
 deploy_pages.append(deploy_main_page)
+
+print("/remont/stiralok")
 
 brand_pages = list(filter(lambda x: x['type'] == 'бренд', parsed_pages))
 district_pages = list(filter(lambda x: x['type'] == 'район', parsed_pages))
@@ -158,6 +160,7 @@ for district_page in district_pages:
     deploy_pages.append(deploy_district_page)
     deploy_district_page = None
 
+print("/remont/stiralok/:district")
 
 # / Type
 for type_page in type_pages:
@@ -178,6 +181,8 @@ for type_page in type_pages:
     deploy_pages.append(deploy_type_page)
     deploy_type_page = None
 
+print("/remont/stiralok/:type")
+
 # / crash
 for crash_page in crash_pages:
     deploy_crash_page = copy.deepcopy(main_page)
@@ -197,6 +202,7 @@ for crash_page in crash_pages:
     deploy_pages.append(deploy_crash_page)
     deploy_crash_page = None
 
+print("/remont/stiralok/:crash")
 
 # / brand
 for brand_page in brand_pages:
@@ -216,6 +222,7 @@ for brand_page in brand_pages:
     deploy_pages.append(deploy_brand_page)
     deploy_brand_page = None
 
+print("/remont/stiralok/:brand")
 
 # Mixings
 
@@ -245,6 +252,8 @@ for district_page in district_pages:
         deploy_pages.append(mix_page)
         mix_page = None
 
+print("/remont/stiralok/:type/:district")
+
 # / Type / crash
 for crash_page in crash_pages:
     crash_title = " {0}".format(crash_page["title"])
@@ -263,6 +272,10 @@ for crash_page in crash_pages:
 
         deploy_pages.append(mix_page)
         mix_page = None
+
+
+print("/remont/stiralok/:type/:crash")
+
 
 # / Type / Brand
 for brand_page in brand_pages:
@@ -285,6 +298,8 @@ for brand_page in brand_pages:
         deploy_pages.append(mix_page)
         mix_page = None
 
+print("/remont/stiralok/:type/:brand")
+
 # / Brand / District
 for brand_page in brand_pages:
     brand_title = " {0}".format(brand_page["title"])
@@ -305,6 +320,9 @@ for brand_page in brand_pages:
 
         deploy_pages.append(mix_page)
         mix_page = None
+
+print("/remont/stiralok/:brand/:district")
+
 
 # / Brand / Crash
 for brand_page in brand_pages:
@@ -328,31 +346,35 @@ for brand_page in brand_pages:
         deploy_pages.append(mix_page)
         mix_page = None
 
+print("/remont/stiralok/:brand/:crash")
+
 
 # / Type / Brand / crash
-# for type_page in type_pages:
-#     type_title = " {0}".format(type_page["title"])
-#     type_page_slug = type_page['slug']
-#     for brand_page in brand_pages:
-#         brand_title = " {0}".format(brand_page["title"])
-#         brand_page_slug = brand_page['slug']
+for type_page in type_pages:
+    type_title = " {0}".format(type_page["title"])
+    type_page_slug = type_page['slug']
+    for brand_page in brand_pages:
+        brand_title = " {0}".format(brand_page["title"])
+        brand_page_slug = brand_page['slug']
 
-#         for crash_page in crash_pages:
-#             crash_title = " {0}".format(crash_page["title"])
-#             crash_page_slug = crash_page['slug']
+        for crash_page in crash_pages:
+            crash_title = " {0}".format(crash_page["title"])
+            crash_page_slug = crash_page['slug']
 
-#             mix_page = copy.deepcopy(main_page)
-#             mix_page.update(type_page)
-#             mix_page["slug"] = [main_page['slug'], type_page_slug, brand_page_slug, crash_page_slug]
-#             mix_page["title"] = main_page["title"].format(
-#                 CRASH=crash_title, TYPE=type_title, BRAND=brand_title, DISTRICT="")
-#             mix_page["description"] = main_page["title"].format(
-#                 CRASH=crash_title, TYPE=type_title, BRAND=brand_title, DISTRICT="")
-#             mix_page["offer"]["top"] = main_page["offer"]["top"].format(CRASH=crash_title.upper(
-#             ), TYPE=type_title.upper(), BRAND=brand_title.upper(), DISTRICT="".upper())
+            mix_page = copy.deepcopy(main_page)
+            mix_page.update(type_page)
+            mix_page["slug"] = [main_page['slug'], type_page_slug, brand_page_slug, crash_page_slug]
+            mix_page["title"] = main_page["title"].format(
+                CRASH=crash_title, TYPE=type_title, BRAND=brand_title, DISTRICT="")
+            mix_page["description"] = main_page["title"].format(
+                CRASH=crash_title, TYPE=type_title, BRAND=brand_title, DISTRICT="")
+            mix_page["offer"]["top"] = main_page["offer"]["top"].format(CRASH=crash_title.upper(
+            ), TYPE=type_title.upper(), BRAND=brand_title.upper(), DISTRICT="".upper())
 
-#             deploy_pages.append(mix_page)
-#             mix_page = None
+            deploy_pages.append(mix_page)
+            mix_page = None
+
+print("/remont/stiralok/:type/:brand/:crash")
 
 # / Brand / district / crash
 # for brand_page in brand_pages:
@@ -378,6 +400,8 @@ for brand_page in brand_pages:
 #             deploy_pages.append(mix_page)
 #             mix_page = None
 
+print("/remont/stiralok/:brand/:district/:crash")
+
 print(deploy_pages.__len__())
 
 
@@ -386,12 +410,12 @@ print(deploy_pages.__len__())
 #     print(data.__len__())
 #     json.dump(data, fp)
 
-# wb = Workbook()
-# ws1 = wb.active
-# ws1.title = "0"
-# for row in deploy_pages:
-#     ws1.append([row["slug"]])
-# wb.save(filename="LinksGenerated.xlsx")
+wb = Workbook()
+ws1 = wb.active
+ws1.title = "0"
+for row in deploy_pages:
+    ws1.append(["/".join(row["slug"]), row["title"]])
+wb.save(filename="LinksGenerated.xlsx")
 
 page_skeleton = {
     "slug": "",
