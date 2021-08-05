@@ -35,11 +35,12 @@ from pages_generator import PageGenerator
 
 config = json.load(open("parameters.json"))
 secret = json.load(open("secret.json"))
+config.update(secret)
 
 # Create a preferably long-lived app instance which maintains a token cache.
 app = msal.ConfidentialClientApplication(
     config["client_id"], authority=config["authority"],
-    client_credential=secret["key"],
+    client_credential=config["key"],
     # token_cache=...  # Default cache is in memory only.
                        # You can learn how to use SerializableTokenCache from
                        # https://msal-python.rtfd.io/en/latest/#msal.SerializableTokenCache
