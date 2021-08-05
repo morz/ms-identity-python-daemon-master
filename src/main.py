@@ -27,7 +27,7 @@ import logging
 
 import requests
 import msal
-from work import PageGenerator
+from pages_generator import PageGenerator
 
 
 # Optional logging
