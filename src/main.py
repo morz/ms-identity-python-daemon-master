@@ -40,7 +40,7 @@ config.update(secret)
 # Create a preferably long-lived app instance which maintains a token cache.
 app = msal.ConfidentialClientApplication(
     config["client_id"], authority=config["authority"],
-    client_credential=config["key"],
+    client_credential=config["secret"],
     # token_cache=...  # Default cache is in memory only.
                        # You can learn how to use SerializableTokenCache from
                        # https://msal-python.rtfd.io/en/latest/#msal.SerializableTokenCache
