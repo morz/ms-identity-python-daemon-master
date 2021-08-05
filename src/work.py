@@ -141,7 +141,7 @@ class PageGenerator:
             CRASH="РЕМОНТ", TYPE="", BRAND="", DISTRICT="")
 
         self._deploy_pages.append(deploy_main_page)
-        print("/remont/stiralok")
+        print("/remont/:service_name")
 
         brand_pages = list(filter(lambda x: x['type'] == 'бренд', self._parsed_pages))
         district_pages = list(filter(lambda x: x['type'] == 'район', self._parsed_pages))
@@ -167,7 +167,7 @@ class PageGenerator:
             self._deploy_pages.append(deploy_district_page)
             deploy_district_page = None
 
-        print("/remont/stiralok/:district")
+        print("/remont/:service_name/:district")
 
         # / Type
         for type_page in type_pages:
@@ -188,7 +188,7 @@ class PageGenerator:
             self._deploy_pages.append(deploy_type_page)
             deploy_type_page = None
 
-        print("/remont/stiralok/:type")
+        print("/remont/:service_name/:type")
 
         # / crash
         for crash_page in crash_pages:
@@ -209,7 +209,7 @@ class PageGenerator:
             self._deploy_pages.append(deploy_crash_page)
             deploy_crash_page = None
 
-        print("/remont/stiralok/:crash")
+        print("/remont/:service_name/:crash")
 
         # / brand
         for brand_page in brand_pages:
@@ -229,7 +229,7 @@ class PageGenerator:
             self._deploy_pages.append(deploy_brand_page)
             deploy_brand_page = None
 
-        print("/remont/stiralok/:brand")
+        print("/remont/:service_name/:brand")
 
         # Mixings
 
@@ -259,7 +259,7 @@ class PageGenerator:
                 self._deploy_pages.append(mix_page)
                 mix_page = None
 
-        print("/remont/stiralok/:type/:district")
+        print("/remont/:service_name/:type/:district")
 
         # / Type / crash
         for crash_page in crash_pages:
@@ -281,7 +281,7 @@ class PageGenerator:
                 mix_page = None
 
 
-        print("/remont/stiralok/:type/:crash")
+        print("/remont/:service_name/:type/:crash")
 
 
         # / Type / Brand
@@ -305,7 +305,7 @@ class PageGenerator:
                 self._deploy_pages.append(mix_page)
                 mix_page = None
 
-        print("/remont/stiralok/:type/:brand")
+        print("/remont/:service_name/:type/:brand")
 
         # / Brand / District
         for brand_page in brand_pages:
@@ -328,7 +328,7 @@ class PageGenerator:
                 self._deploy_pages.append(mix_page)
                 mix_page = None
 
-        print("/remont/stiralok/:brand/:district")
+        print("/remont/:service_name/:brand/:district")
 
 
         # / Brand / Crash
@@ -353,7 +353,7 @@ class PageGenerator:
                 self._deploy_pages.append(mix_page)
                 mix_page = None
 
-        print("/remont/stiralok/:brand/:crash")
+        print("/remont/:service_name/:brand/:crash")
 
 
         # / Type / Brand / crash
@@ -381,7 +381,7 @@ class PageGenerator:
                     self._deploy_pages.append(mix_page)
                     mix_page = None
 
-        print("/remont/stiralok/:type/:brand/:crash")
+        print("/remont/:service_name/:type/:brand/:crash")
 
         # / Brand / district / crash
         for brand_page in brand_pages:
@@ -407,7 +407,7 @@ class PageGenerator:
                     self._deploy_pages.append(mix_page)
                     mix_page = None
 
-        print("/remont/stiralok/:brand/:district/:crash")
+        print("/remont/:service_name/:brand/:district/:crash")
 
     def deploy_pages_count(self) -> int:
         return self._deploy_pages.__len__()
