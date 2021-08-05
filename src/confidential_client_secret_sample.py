@@ -27,6 +27,7 @@ import logging
 
 import requests
 import msal
+from work import PageGenerator
 
 
 # Optional logging
@@ -68,6 +69,10 @@ if "access_token" in result:
     print("columnCount", graph_data["address"], graph_data['columnCount'])
     with open('items.json', 'w') as fp:
         json.dump(graph_data['text'], fp)
+    pg = PageGenerator(graph_data['text'])
+    pg.parse_pages()
+    pg.get_main_page()
+    print(pg.deploy_pages_count())
 else:
     print(result.get("error"))
     print(result.get("error_description"))
