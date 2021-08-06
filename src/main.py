@@ -73,7 +73,11 @@ if "access_token" in result:
     pg = PageGenerator(graph_data['text'])
     pg.parse_pages()
     pg.get_main_page()
+    pg.generate_deploy_pages()
     print(pg.deploy_pages_count())
+    pg.deploy_pages_clear()
+    # pg.generate_deploy_pages_mix()
+    # print(pg.deploy_pages_count())
 else:
     print(result.get("error"))
     print(result.get("error_description"))

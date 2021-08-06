@@ -383,7 +383,14 @@ class PageGenerator:
 
         print("/remont/:service_name/:type/:brand/:crash")
 
+    def generate_deploy_pages_mix(self):
+
+        brand_pages = list(filter(lambda x: x['type'] == 'бренд', self._parsed_pages))
+        district_pages = list(filter(lambda x: x['type'] == 'район', self._parsed_pages))
+        crash_pages = list(filter(lambda x: x['type'] == 'поломка', self._parsed_pages))
+
         # / Brand / district / crash
+        cnt = 0
         for brand_page in brand_pages:
             brand_title = " {0}".format(brand_page["title"])
             brand_page_slug = brand_page['slug']
@@ -405,9 +412,16 @@ class PageGenerator:
                     ), TYPE="", BRAND=brand_title.upper(), DISTRICT=district_title.upper())
 
                     self._deploy_pages.append(mix_page)
+                    cnt+=1
+                    if cnt % 10000 == True:
+                        print("AAA", self.deploy_pages_count())
                     mix_page = None
 
         print("/remont/:service_name/:brand/:district/:crash")
+
+    def deploy_pages_clear(self) -> int:
+        self._deploy_pages = []
+        return self._deploy_pages.__len__()
 
     def deploy_pages_count(self) -> int:
         return self._deploy_pages.__len__()
