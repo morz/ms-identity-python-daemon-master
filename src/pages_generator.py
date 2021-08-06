@@ -27,7 +27,7 @@ class PageGenerator:
                 continue
             slug = row[0]
             if slug:
-                print("Parsed: {0} ---> {1}".format(idx, row[0]))
+                # print("Parsed: {0} ---> {1}".format(idx, row[0]))
 
                 page = {
                     "slug": slug,

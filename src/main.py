@@ -1,7 +1,7 @@
 import sys  # For simplicity, we'll read config file from 1st CLI param sys.argv[1]
 import json
 import logging
-
+from pysitemapgen import Sitemap
 import requests
 import msal
 from firebase import DatabaseWorker
@@ -46,8 +46,8 @@ if "access_token" in result:
     print("Graph API call result: ")
     # print(json.dumps(graph_data, indent=2))
     print("columnCount", graph_data["address"], graph_data['columnCount'])
-    with open('items.json', 'w') as fp:
-        json.dump(graph_data['text'], fp)
+    # with open('items.json', 'w') as fp:
+    #     json.dump(graph_data['text'], fp)
     pg = PageGenerator(graph_data['text'])
     pg.parse_pages()
     pg.get_main_page()
@@ -58,8 +58,20 @@ if "access_token" in result:
     # print(pg.deploy_pages_count())
     # pg.save_pages_json()
 
-    dw = DatabaseWorker()
-    dw.send_data_to_db(pg.get_deploy_pages())
+    # dw = DatabaseWorker()
+    # dw.send_data_to_db(pg.get_deploy_pages())
+
+    
+
+    sm=Sitemap(changefreq='weekly', sitemap_url='https://{0}/'.format(config["sitemap_domain"]))
+
+    for x in pg.get_deploy_pages():
+        sm.add('https://{0}/{1}/{2}'.format(config["sitemap_domain"], "remont", "/".join(x['slug'])),
+                changefreq='daily',
+                priority=0.7,
+                lastmod='2021-27-07')
+
+    sm.write('sitemap')
 else:
     print(result.get("error"))
     print(result.get("error_description"))

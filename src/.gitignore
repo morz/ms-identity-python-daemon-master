@@ -1,3 +1,4 @@
 secret.json
 *.xlsx
 serviceAccountKey.json
+*.xml
