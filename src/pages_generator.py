@@ -21,6 +21,7 @@ class PageGenerator:
         self._data = data
 
     def parse_pages(self) -> None:
+        parent = None
         for idx, row in enumerate(self._data):
             if idx == 0:
                 continue
@@ -30,10 +31,13 @@ class PageGenerator:
 
                 page = {
                     "slug": slug,
+                    "parent": parent,
                     "type": row[1],
                     "title": row[2],
                     "description": row[3] and row[3] or None
                 }
+                if row[1] == 'основа':
+                    parent = "".join(row[0])
                 if row[7]:
                     page["bullets"] = row[7].split('\n')
 
@@ -419,6 +423,9 @@ class PageGenerator:
 
         print("/remont/:service_name/:brand/:district/:crash")
 
+    def get_deploy_pages(self):
+        return self._deploy_pages
+
     def deploy_pages_clear(self) -> int:
         self._deploy_pages = []
         return self._deploy_pages.__len__()
@@ -435,8 +442,7 @@ class PageGenerator:
         wb.save(filename="LinksGenerated.xlsx")
 
     def save_pages_json(self, json_file = "remonts.json"):
+        print(self.deploy_pages_count())
         with open(json_file, 'w') as fp:
-            data = self._deploy_pages[:100]
-            print(data.__len__())
-            json.dump(data, fp)
+            json.dump(self._deploy_pages, fp)
 
