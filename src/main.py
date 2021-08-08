@@ -1,4 +1,4 @@
-import sys  # For simplicity, we'll read config file from 1st CLI param sys.argv[1]
+import os
 import json
 import logging
 from pysitemapgen import Sitemap
