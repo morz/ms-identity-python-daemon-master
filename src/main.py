@@ -63,15 +63,15 @@ if "access_token" in result:
 
     
 
-    sm=Sitemap(changefreq='weekly', sitemap_url='https://{0}/'.format(config["sitemap_domain"]))
+    # sm=Sitemap(changefreq='weekly', sitemap_url='https://{0}/'.format(config["sitemap_domain"]))
 
-    for x in pg.get_deploy_pages():
-        sm.add('https://{0}/{1}/{2}'.format(config["sitemap_domain"], "remont", "/".join(x['slug'])),
-                changefreq='daily',
-                priority=0.7,
-                lastmod='2021-27-07')
+    # for x in pg.get_deploy_pages():
+    #     sm.add('https://{0}/{1}/{2}'.format(config["sitemap_domain"], "remont", "/".join(x['slug'])),
+    #             changefreq='daily',
+    #             priority=0.7,
+    #             lastmod='2021-27-07')
 
-    sm.write('sitemap')
+    # sm.write('sitemap')
 else:
     print(result.get("error"))
     print(result.get("error_description"))
